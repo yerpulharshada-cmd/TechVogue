@@ -18,6 +18,8 @@ import Investors from './pages/Investors';
 import Freelancers from './pages/Freelancers';
 import CreatePitchEvent from './pages/CreatePitchEvent';
 import Pricing from './pages/Pricing';
+import AboutPage from './pages/AboutPage';
+import ContactPage from './pages/ContactPage';
 
 export default function App() {
   return (
@@ -41,7 +43,7 @@ export default function App() {
               <Route path="/dashboard/*" element={<Dashboard />} />
               <Route path="/pitch-events" element={<PitchEvents />} />
               <Route path="/pitch-events/create" element={<CreatePitchEvent />} />
-              <Route path="/startup-profile" element={<StartupProfile />} />
+              <Route path="/StartupProfile" element={<StartupProfile />} />
               <Route path="/startup/:id" element={<StartupProfile />} />
               <Route path="/investor/:id" element={<InvestorProfile />} />
               <Route path="/freelancer/:id" element={<FreelancerProfile />} />
@@ -56,6 +58,8 @@ export default function App() {
               <Route path="/investors" element={<ErrorBoundary><Investors /></ErrorBoundary>} />
               <Route path="/freelancers" element={<ErrorBoundary><Freelancers /></ErrorBoundary>} />
               <Route path="/pricing" element={<ErrorBoundary><Pricing /></ErrorBoundary>} />
+              <Route path="/about" element={<ErrorBoundary><AboutPage /></ErrorBoundary>} />
+              <Route path="/contact" element={<ErrorBoundary><ContactPage /></ErrorBoundary>} />
             </Routes>
           </div>
         </main>

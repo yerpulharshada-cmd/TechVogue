@@ -7,6 +7,8 @@ export default function AIRecommendations() {
   const [recommendations, setRecommendations] = useState([]);
   const [loading, setLoading] = useState(true);
   const { hasAccess } = useSubscriptionCheck(FEATURES.ACCESS_AI_MATCHING);
+  
+  console.log('AI Recommendations component rendered, hasAccess:', hasAccess);
 
   useEffect(() => {
     const fetchRecommendations = async () => {

@@ -1,13 +1,21 @@
-import { useState } from 'react'
 import Contact from '../components/Contact'
 import FAQ from '../components/FAQ'
 import Chatbot from '../components/Chatbot'
+import { faqItems } from '../data/faq'
 
 export default function ContactPage() {
-  const [email, setEmail] = useState('')
-  const [message, setMessage] = useState('')
-
-  const faqs = [
+  return (
+    <div className="min-h-screen bg-gray-50">
+      <Contact />
+      <div className="mx-auto max-w-4xl px-6 py-12">
+        <h2 className="mb-8 text-center text-3xl font-semibold text-gray-900">Frequently Asked Questions</h2>
+        <FAQ items={faqItems} />
+      </div>
+      <Chatbot />
+    </div>
+  );
+}
+}
     { 
       q: 'How can I report a lost item?', 
       a: 'Go to the “Report Lost” section, fill in all the details such as item name, description, location, and upload an image if available.' 
