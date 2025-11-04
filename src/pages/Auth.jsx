@@ -28,9 +28,28 @@ export default function Auth({ initialTab = 'login' }) {
   })()
 
   function redirect(role) {
-    if (role === 'entrepreneur') nav('/entrepreneurs')
-    else if (role === 'investor') nav('/investors')
-    else nav('/freelancers')
+    if (role === 'entrepreneur') {
+      nav('/entrepreneurs');
+      // Initialize entrepreneur data
+      if (!localStorage.getItem('milestones')) localStorage.setItem('milestones', '[]');
+      if (!localStorage.getItem('teamMembers')) localStorage.setItem('teamMembers', '[]');
+      if (!localStorage.getItem('entrepreneurProfiles')) localStorage.setItem('entrepreneurProfiles', '[]');
+    } else if (role === 'investor') {
+      nav('/investors');
+      // Initialize investor data
+      if (!localStorage.getItem('deals')) localStorage.setItem('deals', '[]');
+      if (!localStorage.getItem('meetings')) localStorage.setItem('meetings', '[]');
+      if (!localStorage.getItem('investorProfiles')) localStorage.setItem('investorProfiles', '[]');
+    } else {
+      nav('/freelancers');
+      // Initialize freelancer data
+      if (!localStorage.getItem('portfolio')) localStorage.setItem('portfolio', '[]');
+      if (!localStorage.getItem('applications')) localStorage.setItem('applications', '[]');
+      if (!localStorage.getItem('freelancerProfiles')) localStorage.setItem('freelancerProfiles', '[]');
+    }
+    // Common data initialization
+    if (!localStorage.getItem('messages')) localStorage.setItem('messages', '[]');
+    if (!localStorage.getItem('reviews')) localStorage.setItem('reviews', '[]');
   }
 
   function handleLogin(e) {
@@ -46,8 +65,26 @@ export default function Auth({ initialTab = 'login' }) {
   function handleSignup(e) {
     e.preventDefault()
     setError('')
+    if (!email || !password || !name) return setError('All fields are required')
     if (password.length < 6) return setError('Password must be at least 6 characters')
     const users = JSON.parse(localStorage.getItem('users') || '[]')
+    if (users.some(u => u.email === email)) return setError('Email already exists')
+    const user = {
+      id: Date.now().toString(),
+      email,
+      password,
+      name,
+      role,
+      createdAt: new Date().toISOString()
+    }
+    users.push(user)
+    localStorage.setItem('users', JSON.stringify(users))
+    localStorage.setItem('currentUser', JSON.stringify(user))
+    // Initialize empty arrays for various data if they don't exist
+    if (!localStorage.getItem('milestones')) localStorage.setItem('milestones', '[]')
+    if (!localStorage.getItem('teamMembers')) localStorage.setItem('teamMembers', '[]')
+    if (!localStorage.getItem('peerReviews')) localStorage.setItem('peerReviews', '[]')
+    if (!localStorage.getItem('entrepreneurProfiles')) localStorage.setItem('entrepreneurProfiles', '[]')
     if (users.find(u => u.email === email)) return setError('Email already registered')
     const newUser = { id: Date.now().toString(), name, email, password, role, createdAt: new Date().toISOString() }
     users.push(newUser)

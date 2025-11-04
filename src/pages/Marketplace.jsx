@@ -14,15 +14,32 @@ export default function Marketplace() {
 
   const fetchProjects = async () => {
     try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        setProjects([]);
+        return;
+      }
+
       const response = await fetch(`http://localhost:5000/api/projects?filter=${filter}`, {
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
+          'Authorization': `Bearer ${token}`
         }
       });
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
       const data = await response.json();
-      setProjects(data);
+      if (Array.isArray(data)) {
+        setProjects(data);
+      } else {
+        setProjects([]);
+        console.error('Received invalid data format:', data);
+      }
     } catch (error) {
       console.error('Error fetching projects:', error);
+      setProjects([]);
     } finally {
       setLoading(false);
     }

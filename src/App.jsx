@@ -4,6 +4,7 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Home from './pages/Home';
 import Auth from './pages/Auth';
+import ErrorBoundary from './components/ErrorBoundary';
 import Dashboard from './pages/Dashboard';
 import PitchEvents from './pages/PitchEvents';
 import StartupProfile from './pages/StartupProfile';
@@ -13,6 +14,8 @@ import Marketplace from './pages/Marketplace';
 import ProjectDetails from './pages/ProjectDetails';
 import Settings from './pages/Settings';
 import Entrepreneurs from './pages/Entrepreneurs';
+import Investors from './pages/Investors';
+import Freelancers from './pages/Freelancers';
 
 export default function App() {
   return (
@@ -35,14 +38,20 @@ export default function App() {
               <Route path="/auth" element={<Auth />} />
               <Route path="/dashboard/*" element={<Dashboard />} />
               <Route path="/pitch-events" element={<PitchEvents />} />
+              <Route path="/startup-profile" element={<StartupProfile />} />
               <Route path="/startup/:id" element={<StartupProfile />} />
               <Route path="/investor/:id" element={<InvestorProfile />} />
               <Route path="/freelancer/:id" element={<FreelancerProfile />} />
-              <Route path="/marketplace" element={<Marketplace />} />
+              <Route path="/marketplace" element={
+                <ErrorBoundary>
+                  <Marketplace />
+                </ErrorBoundary>
+              } />
               <Route path="/project/:id" element={<ProjectDetails />} />
               <Route path="/settings" element={<Settings />} />
-              <Route path="/startup-profile" element={<StartupProfile />} />
-              <Route path="/entrepreneurs" element={<Entrepreneurs />} />
+              <Route path="/entrepreneurs" element={<ErrorBoundary><Entrepreneurs /></ErrorBoundary>} />
+              <Route path="/investors" element={<ErrorBoundary><Investors /></ErrorBoundary>} />
+              <Route path="/freelancers" element={<ErrorBoundary><Freelancers /></ErrorBoundary>} />
             </Routes>
           </div>
         </main>

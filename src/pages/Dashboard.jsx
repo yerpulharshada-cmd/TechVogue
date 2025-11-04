@@ -27,11 +27,20 @@ export default function Dashboard() {
           const data = await response.json();
           setUser(data);
         } else {
-          throw new Error('Failed to fetch user data');
+          const errorData = await response.json();
+          console.error('Server Error:', errorData);
+          if (response.status === 401) {
+            localStorage.removeItem('token');
+            navigate('/auth');
+          }
         }
       } catch (error) {
-        console.error('Error:', error);
-        navigate('/auth');
+        console.error('Network Error:', error);
+        // Only redirect if it's an auth error, not for network errors
+        if (error.message.includes('401') || error.message.includes('auth')) {
+          localStorage.removeItem('token');
+          navigate('/auth');
+        }
       } finally {
         setLoading(false);
       }
